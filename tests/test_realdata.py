@@ -1,6 +1,7 @@
 import unittest
 import json
-from fever.eval.scorer import *
+from fever.scorer import *
+
 
 class TestRealData(unittest.TestCase):
 

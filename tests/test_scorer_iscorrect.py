@@ -1,5 +1,6 @@
 import unittest
-from fever.eval.scorer import *
+from fever.scorer import *
+
 
 class IsCorrectTestCase(unittest.TestCase):
     def test_equal_labels(self):

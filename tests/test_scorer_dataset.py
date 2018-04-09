@@ -1,5 +1,6 @@
 import unittest
-from fever.eval.scorer import *
+from fever.scorer import *
+
 
 class FeverScorerTestCase(unittest.TestCase):
     def test_fever_perfect_scorer_strict(self):

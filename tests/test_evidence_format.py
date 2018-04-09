@@ -1,5 +1,6 @@
 import unittest
-from fever.eval.scorer import *
+from fever.scorer import *
+
 
 class TestEvidenceRequirements(unittest.TestCase):
     def test_no_evidence_no_error(self):

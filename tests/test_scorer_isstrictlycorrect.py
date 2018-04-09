@@ -1,5 +1,6 @@
 import unittest
-from fever.eval.scorer import *
+from fever.scorer import *
+
 
 class IsStrictlyCorrectTestCase(unittest.TestCase):
     def test_nei_no_evidence(self):
