@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/sheffieldnlp/fever-scorer.svg?branch=master)](https://travis-ci.org/sheffieldnlp/fever-scorer)
 
-Scoring function for the Fact Extraction and VERification shared task
+Scoring function for the Fact Extraction and VERification shared task. Tested for Python 3.6 and 2.7.
 
 This scorer produces five outputs: 
  * The strict score considering the requirement for evidence 
