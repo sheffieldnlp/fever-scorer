@@ -1,20 +1,20 @@
 def check_predicted_evidence_format(instance):
     if 'predicted_evidence' in instance.keys() and len(instance['predicted_evidence']):
-        assert all(isinstance(prediction, list) or isinstance(prediction, tuple)
+        assert all(isinstance(prediction, list)
                    for prediction in instance["predicted_evidence"]), \
-            "Predicted evidence must be a list of (page,line) tuples"
+            "Predicted evidence must be a list of (page,line) lists"
 
         assert all(len(prediction) == 2
                    for prediction in instance["predicted_evidence"]), \
-            "Predicted evidence must be a list of (page,line) tuples"
+            "Predicted evidence must be a list of (page,line) lists"
 
         assert all(isinstance(prediction[0], str)
                    for prediction in instance["predicted_evidence"]), \
-            "Predicted evidence must be a list of (page<string>,line<int>) tuples"
+            "Predicted evidence must be a list of (page<string>,line<int>) lists"
 
         assert all(isinstance(prediction[1], int)
                    for prediction in instance["predicted_evidence"]), \
-            "Predicted evidence must be a list of (page<string>,line<int>) tuples"
+            "Predicted evidence must be a list of (page<string>,line<int>) lists"
 
 
 def is_correct_label(instance):
