@@ -46,8 +46,8 @@ def is_strictly_correct(instance):
 
 
 def evidence_macro_precision(instance):
-    this_precision = 0
-    this_precision_hits = 0
+    this_precision = 0.0
+    this_precision_hits = 0.0
 
     if instance["label"].upper() != "NOT ENOUGH INFO":
         all_evi = [[e[2], e[3]] for eg in instance["evidence"] for e in eg if e[3] is not None]
@@ -57,24 +57,24 @@ def evidence_macro_precision(instance):
                 this_precision += 1.0
             this_precision_hits += 1.0
 
-        return (this_precision / this_precision_hits) if this_precision_hits > 0 else 1.0, 1
+        return (this_precision / this_precision_hits) if this_precision_hits > 0 else 1.0, 1.0
 
-    return 0,0
+    return 0.0, 0.0
 
 def evidence_macro_recall(instance):
     # We only want to score F1/Precision/Recall of recalled evidence for NEI claims
     if instance["label"].upper() != "NOT ENOUGH INFO":
         # If there's no evidence to predict, return 1
         if len(instance["evidence"]) == 0 or all([len(eg) == 0 for eg in instance]):
-           return 1,1
+           return 1.0, 1.0
 
         for evidence_group in instance["evidence"]:
             evidence = [[e[2], e[3]] for e in evidence_group]
             if all([item in instance["predicted_evidence"] for item in evidence]):
                 # We only want to score complete groups of evidence. Incomplete groups are worthless.
-                return 1,1
-        return 0,1
-    return 0,0
+                return 1.0, 1.0
+        return 0.0, 1.0
+    return 0.0, 0.0
 
 
 # Micro is not used. This code is just included to demostrate our model of macro/micro
