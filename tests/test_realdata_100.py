@@ -20,11 +20,21 @@ class TestRealData100(unittest.TestCase):
         self.actual = self.actual[:100]
 
     def test_scores(self):
-        score,_ = fever_score(self.predictions,self.actual)
+        score, acc, pr, rec, f1 = fever_score(self.predictions,self.actual)
         self.assertAlmostEqual(score,0.26)
 
-
-
     def test_acc(self):
-        _,acc = fever_score(self.predictions,self.actual)
+        score, acc, pr, rec, f1 = fever_score(self.predictions,self.actual)
         self.assertAlmostEqual(acc,0.48)
+
+    def test_pr(self):
+        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual)
+        self.assertAlmostEqual(pr, 0.09189189189189195)
+
+    def test_rec(self):
+        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual)
+        self.assertAlmostEqual(rec, 0.3783783783783784)
+
+    def test_f1(self):
+        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual)
+        self.assertAlmostEqual(f1, 0.14787200994097552)

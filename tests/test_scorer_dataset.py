@@ -8,8 +8,8 @@ class FeverScorerTestCase(unittest.TestCase):
         instance2 = {"label": "not enough info", "predicted_label": "not enough info", "evidence":[],"predicted_evidence":[]}
 
         predictions = [instance1,instance2]
-        strict,acc = fever_score(predictions)
-        self.assertEqual(1.0,strict)
+        score, acc, pr, rec, f1 = fever_score(predictions)
+        self.assertEqual(1.0,score)
 
 
     def test_fever_perfect_scorer_acc(self):
@@ -17,7 +17,7 @@ class FeverScorerTestCase(unittest.TestCase):
         instance2 = {"label": "not enough info", "predicted_label": "not enough info", "evidence":[],"predicted_evidence":[]}
 
         predictions = [instance1,instance2]
-        strict,acc = fever_score(predictions)
+        score, acc, pr, rec, f1 = fever_score(predictions)
         self.assertEqual(1.0,acc)
 
     def test_fever_imperfect_scorer_strict(self):
@@ -25,8 +25,8 @@ class FeverScorerTestCase(unittest.TestCase):
         instance2 = {"label": "not enough info", "predicted_label": "supports", "evidence":[],"predicted_evidence":[]}
 
         predictions = [instance1,instance2]
-        strict,acc = fever_score(predictions)
-        self.assertEqual(0.0,strict)
+        score, acc, pr, rec, f1 = fever_score(predictions)
+        self.assertEqual(0.0,score)
 
 
     def test_fever_imperfect_scorer_acc(self):
@@ -34,7 +34,7 @@ class FeverScorerTestCase(unittest.TestCase):
         instance2 = {"label": "not enough info", "predicted_label": "supports", "evidence":[],"predicted_evidence":[]}
 
         predictions = [instance1,instance2]
-        strict,acc = fever_score(predictions)
+        score, acc, pr, rec, f1 = fever_score(predictions)
         self.assertEqual(0.0,acc)
 
     def test_fever_blind_no_data(self):
@@ -68,8 +68,8 @@ class FeverScorerTestCase(unittest.TestCase):
 
         actual = [{"label": "not enough info","evidence":[]}, {"label": "not enough info","evidence":[]}]
         predictions = [instance1,instance2]
-        strict,acc = fever_score(predictions,actual)
-        self.assertEqual(1.0,strict)
+        score, acc, pr, rec, f1 = fever_score(predictions,actual)
+        self.assertEqual(1.0,score)
 
     def test_fever_blind_perfect_acc(self):
         instance1 = {"predicted_label": "not enough info", "predicted_evidence": []}
@@ -77,7 +77,7 @@ class FeverScorerTestCase(unittest.TestCase):
 
         actual = [{"label": "not enough info","evidence":[]}, {"label": "not enough info","evidence":[]}]
         predictions = [instance1, instance2]
-        strict, acc = fever_score(predictions, actual)
+        score, acc, pr, rec, f1 = fever_score(predictions, actual)
         self.assertEqual(1.0, acc)
 
     def test_fever_blind_imperfect_strict(self):
@@ -87,8 +87,8 @@ class FeverScorerTestCase(unittest.TestCase):
 
         actual = [{"label": "not enough info","evidence":[]}, {"label": "not enough info","evidence":[]}]
         predictions = [instance1,instance2]
-        strict,acc = fever_score(predictions,actual)
-        self.assertEqual(0.0,strict)
+        score, acc, pr, rec, f1 = fever_score(predictions,actual)
+        self.assertEqual(0.0,score)
 
     def test_fever_blind_imperfect_acc(self):
         instance1 = {"predicted_label": "supports", "predicted_evidence": []}
@@ -96,7 +96,7 @@ class FeverScorerTestCase(unittest.TestCase):
 
         actual = [{"label": "not enough info","evidence":[]}, {"label": "not enough info","evidence":[]}]
         predictions = [instance1, instance2]
-        strict, acc = fever_score(predictions, actual)
+        score, acc, pr, rec, f1= fever_score(predictions, actual)
         self.assertEqual(0, acc)
 
     def test_fever_blind_imperfect2_strict(self):
@@ -105,7 +105,7 @@ class FeverScorerTestCase(unittest.TestCase):
 
         actual = [{"label": "not enough info", "evidence": []}, {"label": "not enough info", "evidence": []}]
         predictions = [instance1, instance2]
-        strict, acc = fever_score(predictions, actual)
+        strict, acc, pr, rec, f1 = fever_score(predictions, actual)
         self.assertEqual(0.5, strict)
 
     def test_fever_blind_imperfect2_acc(self):
@@ -114,7 +114,7 @@ class FeverScorerTestCase(unittest.TestCase):
 
         actual = [{"label": "not enough info", "evidence": []}, {"label": "not enough info", "evidence": []}]
         predictions = [instance1, instance2]
-        strict, acc = fever_score(predictions, actual)
+        score, acc, pr, rec, f1 = fever_score(predictions, actual)
         self.assertEqual(0.5, acc)
 
     def test_fever_blind_imperfect3_strict(self):
@@ -148,7 +148,7 @@ class FeverScorerTestCase(unittest.TestCase):
             ]
 
         predictions = [instance1, instance2]
-        strict, acc = fever_score(predictions, actual)
+        strict,acc,pr,rec,f1 = fever_score(predictions, actual)
         self.assertEqual(0.5, strict)
 
     def test_fever_blind_imperfect3_acc(self):
@@ -180,5 +180,5 @@ class FeverScorerTestCase(unittest.TestCase):
         ]
 
         predictions = [instance1, instance2]
-        strict, acc = fever_score(predictions, actual)
+        score, acc, pr, rec, f1 = fever_score(predictions, actual)
         self.assertEqual(1.0, acc)
