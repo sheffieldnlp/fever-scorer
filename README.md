@@ -4,13 +4,18 @@
 
 Scoring function for the Fact Extraction and VERification shared task
 
-This scorer produces two outputs: the strict score considering the requirement for evidence and the label accuracy.
-
+This scorer produces five outputs: 
+ * The strict score considering the requirement for evidence 
+ * The label accuracy
+ * The macro-precision of the evidence for supported/refuted claims
+ * The macro-recall of the evidence supported/refuted claims where an instance is scored if and only if at least one complete evidence group is found
+ * The F1 score of the evidence, using the above metrics.
+ 
 The evidence is considered to be correct if there exists a complete list of actual evidence that is a subset of the predicted evidence.
 
 ## Example 1
 ```python
-from fever.eval.scorer import fever_score
+from fever.scorer import fever_score
 
 instance1 = {"label": "refutes", "predicted_label": "refutes", "predicted_evidence": [ #is not strictly correct - missing (page2,2)
         ["page1", 1]                                    #page name, line number
@@ -39,17 +44,20 @@ instance2 = {"label": "refutes", "predicted_label": "refutes", "predicted_eviden
 }
 
 predictions = [instance1, instance2]
-strict_score, label_accuracy = fever_score(predictions)
+strict_score, label_accuracy, precision, recall, f1 = fever_score(predictions)
 
 print(strict_score)     #0.5
 print(label_accuracy)   #1.0
+print(precision)        #0.833 (first example scores 1, second example scores 2/3)
+print(recall)           #0.5 (first example scores 0, second example scores 1)
+print(f1)               #0.625 
 ```
 
 
 
 ## Example 2 - (e.g. blind test set)
 ```python
-from fever.eval.scorer import fever_score
+from fever.scorer import fever_score
 
 instance1 = {"predicted_label": "refutes", "predicted_evidence": [ #is not strictly correct - missing (page2,2)
     ["page1", 1]                                    #page name, line number
@@ -79,8 +87,6 @@ actual = [
 ]
 
 predictions = [instance1, instance2]
-strict_score, label_accuracy = fever_score(predictions, actual)
+strict_score, label_accuracy, precision, recall, f1 = fever_score(predictions)
 
-print(strict_score)     #0.5
-print(label_accuracy)   #1.0
 ```
