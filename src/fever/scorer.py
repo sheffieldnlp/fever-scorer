@@ -1,3 +1,5 @@
+import six
+
 def check_predicted_evidence_format(instance):
     if 'predicted_evidence' in instance.keys() and len(instance['predicted_evidence']):
         assert all(isinstance(prediction, list)
@@ -8,8 +10,8 @@ def check_predicted_evidence_format(instance):
                    for prediction in instance["predicted_evidence"]), \
             "Predicted evidence must be a list of (page,line) lists"
 
-        assert all(isinstance(prediction[0], str)
-                   for prediction in instance["predicted_evidence"]), \
+        assert all(isinstance(prediction[0], six.string_types)
+                    for prediction in instance["predicted_evidence"]), \
             "Predicted evidence must be a list of (page<string>,line<int>) lists"
 
         assert all(isinstance(prediction[1], int)
