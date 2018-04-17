@@ -13,6 +13,10 @@ This scorer produces five outputs:
  
 The evidence is considered to be correct if there exists a complete list of actual evidence that is a subset of the predicted evidence.
 
+## Find out more
+
+Visit [http://fever.ai](http://fever.ai) to find out more about the shared task.
+
 ## Example 1
 ```python
 from fever.scorer import fever_score
@@ -87,6 +91,6 @@ actual = [
 ]
 
 predictions = [instance1, instance2]
-strict_score, label_accuracy, precision, recall, f1 = fever_score(predictions)
+strict_score, label_accuracy, precision, recall, f1 = fever_score(predictions,actual)
 
 ```
