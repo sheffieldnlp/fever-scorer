@@ -13,6 +13,8 @@ This scorer produces five outputs:
  
 The evidence is considered to be correct if there exists a complete list of actual evidence that is a subset of the predicted evidence.
 
+In the FEVER Shared Task, we will consider only only the first `5` sentences of predicted_evidence that the candidate system provies for scoring. This is configurable through the `max_evidence` parameter for the scorer. When too much evidence is provided. It is removed, without penalty.
+
 ## Find out more
 
 Visit [http://fever.ai](http://fever.ai) to find out more about the shared task.
@@ -27,7 +29,7 @@ instance1 = {"label": "refutes", "predicted_label": "refutes", "predicted_eviden
     "evidence":
     [
         [
-            [None, None, "page1", 1],           #[annotation id, evidence id, page name, line number]
+            [None, None, "page1", 1],           #[(ignored) annotation job, (ignored) internal id, page name, line number]
             [None, None, "page2", 2],
         ]
     ]
@@ -77,7 +79,7 @@ actual = [
     {"label": "refutes", "evidence":
         [
             [
-                [None, None, "page1", 1],           #[annotation id, evidence id, page name, line number]
+                [None, None, "page1", 1],
                 [None, None, "page2", 2],
             ]
         ]},

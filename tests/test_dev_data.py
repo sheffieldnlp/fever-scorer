@@ -23,21 +23,21 @@ class TestRealData(unittest.TestCase):
 
 
     def test_scores(self):
-        score,acc,pr,rec,f1 = fever_score(self.predictions,self.actual)
+        score,acc,pr,rec,f1 = fever_score(self.predictions,self.actual,max_evidence=None)
         self.assertEqual(score,1.0)
 
     def test_acc(self):
-        score, acc, pr, rec, f1 = fever_score(self.predictions,self.actual)
+        score, acc, pr, rec, f1 = fever_score(self.predictions,self.actual,max_evidence=None)
         self.assertEqual(acc,1.0)
 
     def test_f1(self):
-        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual)
+        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual,max_evidence=None)
         self.assertEqual(f1, 1.0)
 
     def test_pr(self):
-        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual)
+        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual,max_evidence=None)
         self.assertEqual(pr, 1.0)
 
     def test_rec(self):
-        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual)
+        score, acc, pr, rec, f1 = fever_score(self.predictions, self.actual,max_evidence=None)
         self.assertEqual(rec, 1.0)

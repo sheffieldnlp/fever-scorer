@@ -23,13 +23,16 @@ def is_correct_label(instance):
     return instance["label"].upper() == instance["predicted_label"].upper()
 
 
-def is_strictly_correct(instance):
+def is_strictly_correct(instance, max_evidence=None):
     #Strict evidence matching is only for NEI class
     check_predicted_evidence_format(instance)
 
     if instance["label"].upper() != "NOT ENOUGH INFO" and is_correct_label(instance):
-
         assert 'predicted_evidence' in instance, "Predicted evidence must be provided for strict scoring"
+
+        if max_evidence is not None:
+            instance["predicted_evidence"] = instance["predicted_evidence"][:max_evidence]
+
 
         for evience_group in instance["evidence"]:
             #Filter out the annotation ids. We just want the evidence page and line number
@@ -45,14 +48,17 @@ def is_strictly_correct(instance):
     return False
 
 
-def evidence_macro_precision(instance):
+def evidence_macro_precision(instance, max_evidence=None):
     this_precision = 0.0
     this_precision_hits = 0.0
 
     if instance["label"].upper() != "NOT ENOUGH INFO":
         all_evi = [[e[2], e[3]] for eg in instance["evidence"] for e in eg if e[3] is not None]
 
-        for prediction in instance["predicted_evidence"]:
+        predicted_evidence = instance["predicted_evidence"] if max_evidence is None else \
+                                                                        instance["predicted_evidence"][:max_evidence]
+
+        for prediction in predicted_evidence:
             if prediction in all_evi:
                 this_precision += 1.0
             this_precision_hits += 1.0
@@ -61,16 +67,19 @@ def evidence_macro_precision(instance):
 
     return 0.0, 0.0
 
-def evidence_macro_recall(instance):
+def evidence_macro_recall(instance, max_evidence=None):
     # We only want to score F1/Precision/Recall of recalled evidence for NEI claims
     if instance["label"].upper() != "NOT ENOUGH INFO":
         # If there's no evidence to predict, return 1
         if len(instance["evidence"]) == 0 or all([len(eg) == 0 for eg in instance]):
            return 1.0, 1.0
 
+        predicted_evidence = instance["predicted_evidence"] if max_evidence is None else \
+                                                                        instance["predicted_evidence"][:max_evidence]
+
         for evidence_group in instance["evidence"]:
             evidence = [[e[2], e[3]] for e in evidence_group]
-            if all([item in instance["predicted_evidence"] for item in evidence]):
+            if all([item in predicted_evidence for item in evidence]):
                 # We only want to score complete groups of evidence. Incomplete groups are worthless.
                 return 1.0, 1.0
         return 0.0, 1.0
@@ -94,7 +103,7 @@ def evidence_micro_precision(instance):
     return this_precision, this_precision_hits
 
 
-def fever_score(predictions,actual=None):
+def fever_score(predictions,actual=None, max_evidence=5):
     correct = 0
     strict = 0
 
@@ -120,14 +129,14 @@ def fever_score(predictions,actual=None):
         if is_correct_label(instance):
             correct += 1.0
 
-            if is_strictly_correct(instance):
+            if is_strictly_correct(instance, max_evidence):
                 strict+=1.0
 
-        macro_prec = evidence_macro_precision(instance)
+        macro_prec = evidence_macro_precision(instance, max_evidence)
         macro_precision += macro_prec[0]
         macro_precision_hits += macro_prec[1]
 
-        macro_rec = evidence_macro_recall(instance)
+        macro_rec = evidence_macro_recall(instance, max_evidence)
         macro_recall += macro_rec[0]
         macro_recall_hits += macro_rec[1]
 
