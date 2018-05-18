@@ -69,3 +69,9 @@ class MaxEvidenceTestCase(unittest.TestCase):
         _,_,_,r,_ = fever_score([instance],max_evidence=1)
         self.assertEqual(r,0)
 
+    def test_non_modification(self):
+        instance = {"label": "supports", "predicted_label": "supports","evidence":[[[None,None,"page",0],[None,None,"page",1]]],"predicted_evidence":[["page",0],["page", 1]]}
+        instance_copy = instance.copy()
+        _,_,_,_,_ = fever_score([instance],max_evidence=0)
+        self.assertEqual(instance_copy,instance)
+

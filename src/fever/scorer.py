@@ -30,15 +30,15 @@ def is_strictly_correct(instance, max_evidence=None):
     if instance["label"].upper() != "NOT ENOUGH INFO" and is_correct_label(instance):
         assert 'predicted_evidence' in instance, "Predicted evidence must be provided for strict scoring"
 
-        if max_evidence is not None:
-            instance["predicted_evidence"] = instance["predicted_evidence"][:max_evidence]
+        if max_evidence is None:
+            max_evidence = len(instance["predicted_evidence"])
 
 
         for evience_group in instance["evidence"]:
             #Filter out the annotation ids. We just want the evidence page and line number
             actual_sentences = [[e[2], e[3]] for e in evience_group]
             #Only return true if an entire group of actual sentences is in the predicted sentences
-            if all([actual_sent in instance["predicted_evidence"] for actual_sent in actual_sentences]):
+            if all([actual_sent in instance["predicted_evidence"][:max_evidence] for actual_sent in actual_sentences]):
                 return True
 
     #If the class is NEI, we don't score the evidence retrieval component
