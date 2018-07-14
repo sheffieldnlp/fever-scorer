@@ -5,7 +5,7 @@
 Scoring function for the Fact Extraction and VERification shared task. Tested for Python 3.6 and 2.7.
 
 This scorer produces five outputs: 
- * The strict score considering the requirement for evidence 
+ * The strict score considering the requirement for evidence (**primary scoring metric for shared task**)
  * The label accuracy
  * The macro-precision of the evidence for supported/refuted claims
  * The macro-recall of the evidence supported/refuted claims where an instance is scored if and only if at least one complete evidence group is found
