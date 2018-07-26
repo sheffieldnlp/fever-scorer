@@ -23,7 +23,7 @@ Visit [http://fever.ai](http://fever.ai) to find out more about the shared task.
 ```python
 from fever.scorer import fever_score
 
-instance1 = {"label": "refutes", "predicted_label": "refutes", "predicted_evidence": [ #is not strictly correct - missing (page2,2)
+instance1 = {"label": "REFUTES", "predicted_label": "REFUTES", "predicted_evidence": [ #is not strictly correct - missing (page2,2)
         ["page1", 1]                                    #page name, line number
     ], 
     "evidence":
@@ -35,7 +35,7 @@ instance1 = {"label": "refutes", "predicted_label": "refutes", "predicted_eviden
     ]
 }
 
-instance2 = {"label": "refutes", "predicted_label": "refutes", "predicted_evidence": [
+instance2 = {"label": "REFUTES", "predicted_label": "REFUTES", "predicted_evidence": [
         ["page1", 1],                                   
         ["page2", 2],
         ["page3", 3]                                    
@@ -65,25 +65,25 @@ print(f1)               #0.625
 ```python
 from fever.scorer import fever_score
 
-instance1 = {"predicted_label": "refutes", "predicted_evidence": [ #is not strictly correct - missing (page2,2)
+instance1 = {"predicted_label": "REFUTES", "predicted_evidence": [ #is not strictly correct - missing (page2,2)
     ["page1", 1]                                    #page name, line number
 ]}
 
-instance2 = {"predicted_label": "refutes", "predicted_evidence": [
+instance2 = {"predicted_label": "REFUTES", "predicted_evidence": [
     ["page1", 1],                                   #page name, line number
     ["page2", 2],
     ["page3", 3]
 ]}
 
 actual = [
-    {"label": "refutes", "evidence":
+    {"label": "REFUTES", "evidence":
         [
             [
                 [None, None, "page1", 1],
                 [None, None, "page2", 2],
             ]
         ]},
-    {"label": "refutes", "evidence":
+    {"label": "REFUTES", "evidence":
         [
             [
                 [None, None, "page1", 1],
