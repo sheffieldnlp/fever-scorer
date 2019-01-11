@@ -12,11 +12,10 @@ depends = [req.replace("git+git://","git+http://") for req in reqs if req.starts
 
 setup(
     name='fever-scorer',
-    version='1.1.2',
+    version='1.1.3',
     description='Fact Extraction and VERification scorer',
     long_description="readme",
     license=license,
-    python_requires='>=3.6',
     package_dir={'fever': 'src/fever'},
     packages=['fever'],
     install_requires=install,
