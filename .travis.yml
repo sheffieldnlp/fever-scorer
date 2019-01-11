@@ -4,7 +4,6 @@ python:
   - "3.6"
 before_install:
   - . version.sh
-  - cat setup.py
 install:
   - sudo apt-get update
   - python setup.py install
