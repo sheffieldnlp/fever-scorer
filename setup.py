@@ -12,7 +12,7 @@ depends = [req.replace("git+git://","git+http://") for req in reqs if req.starts
 
 setup(
     name='fever-scorer',
-    version='1.1.5',
+    version='0.0.0',
     author='James Thorne',
     author_email='james@jamesthorne.co.uk',
     url='https://jamesthorne.co.uk',

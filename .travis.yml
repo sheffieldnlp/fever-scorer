@@ -2,6 +2,9 @@ language: python
 python:
   - "2.7"
   - "3.6"
+before_install:
+  - . version.sh
+  - cat setup.py
 install:
   - sudo apt-get update
   - python setup.py install
@@ -16,3 +19,6 @@ deploy:
   user: $DEPLOY_PYPI_USER
   password: $DEPLOY_PYPI_PASS
   skip_existing: true
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH == release-*
