@@ -19,8 +19,8 @@ setup(
     description='Fact Extraction and VERification scorer',
     long_description="readme",
     license=license,
-    package_dir={'fever': 'src/fever'},
-    packages=['fever'],
+    package_dir={'fever': 'src/fever',"fever2":"src/fever2"},
+    packages=['fever','fever2'],
     install_requires=install,
     dependency_links=depends,
 )
