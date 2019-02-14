@@ -12,7 +12,6 @@ if __name__ == "__main__":
     import argparse, json, os
 
     parser = argparse.ArgumentParser()
-
     parser.add_argument("--actual-file")
     parser.add_argument("--submission-dir")
     args = parser.parse_args()
@@ -21,7 +20,7 @@ if __name__ == "__main__":
     actual = []
 
     for filename in os.listdir(args.submission_dir):
-        with open(filename,"r") as file:
+        with open(args.submission_dir+"/"+filename,"r") as file:
             file_lines = []
             for line in file:
                 file_lines.append(json.loads(line))
