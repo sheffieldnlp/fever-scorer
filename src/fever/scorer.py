@@ -110,7 +110,7 @@ def normalize(page):
     if page is None:
         return None
 
-    if sys.version_info[0] > 3:
+    if sys.version_info[0] >= 3:
         return unicodedata.normalize("NFD",page)
     else:
         return unicodedata.normalize('NFD',unicode(page))
