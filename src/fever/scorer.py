@@ -1,3 +1,4 @@
+import sys
 import unicodedata
 
 import six
@@ -108,7 +109,11 @@ def evidence_micro_precision(instance):
 def normalize(page):
     if page is None:
         return None
-    return unicodedata.normalize('NFD',page)
+
+    if sys.version_info[0] > 3:
+        return unicodedata.normalize("NFD",page)
+    else:
+        return unicodedata.normalize('NFD',unicode(page))
 
 
 def fever_score(predictions, actual=None, max_evidence=5):

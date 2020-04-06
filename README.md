@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/sheffieldnlp/fever-scorer.svg?branch=master)](https://travis-ci.org/sheffieldnlp/fever-scorer)
 
-Scoring function for the Fact Extraction and VERification shared task. Tested for Python 3.
+Scoring function for the Fact Extraction and VERification shared task. Tested for Python 3 and Python 2.7.
 
 This scorer produces five outputs: 
  * The strict score considering the requirement for evidence (**primary scoring metric for shared task**)
@@ -18,7 +18,6 @@ In the FEVER Shared Task, we will consider only only the first `5` sentences of 
 ## Updates
 Version 1.3:
 * Fix unicode issue when scoring some page names
-* Removed support for Python 2.7 (end of life)
 * Add test runner for FEVER1.1 data update
 
 ## Find out more
