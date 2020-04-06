@@ -1,3 +1,5 @@
+import unicodedata
+
 import six
 
 def check_predicted_evidence_format(instance):
@@ -24,7 +26,7 @@ def is_correct_label(instance):
 
 
 def is_strictly_correct(instance, max_evidence=None):
-    #Strict evidence matching is only for NEI class
+    # Strict evidence matching is only for NEI class
     check_predicted_evidence_format(instance)
 
     if instance["label"].upper() != "NOT ENOUGH INFO" and is_correct_label(instance):
@@ -35,13 +37,13 @@ def is_strictly_correct(instance, max_evidence=None):
 
 
         for evience_group in instance["evidence"]:
-            #Filter out the annotation ids. We just want the evidence page and line number
+            # Filter out the annotation ids. We just want the evidence page and line number
             actual_sentences = [[e[2], e[3]] for e in evience_group]
-            #Only return true if an entire group of actual sentences is in the predicted sentences
+            # Only return true if an entire group of actual sentences is in the predicted sentences
             if all([actual_sent in instance["predicted_evidence"][:max_evidence] for actual_sent in actual_sentences]):
                 return True
 
-    #If the class is NEI, we don't score the evidence retrieval component
+    # If the class is NEI, we don't score the evidence retrieval component
     elif instance["label"].upper() == "NOT ENOUGH INFO" and is_correct_label(instance):
         return True
 
@@ -103,7 +105,13 @@ def evidence_micro_precision(instance):
     return this_precision, this_precision_hits
 
 
-def fever_score(predictions,actual=None, max_evidence=5):
+def normalize(page):
+    if page is None:
+        return None
+    return unicodedata.normalize('NFD',page)
+
+
+def fever_score(predictions, actual=None, max_evidence=5):
     correct = 0
     strict = 0
 
@@ -113,10 +121,10 @@ def fever_score(predictions,actual=None, max_evidence=5):
     macro_recall = 0
     macro_recall_hits = 0
 
-    for idx,instance in enumerate(predictions):
+    for idx, instance in enumerate(predictions):
         assert 'predicted_evidence' in instance.keys(), 'evidence must be provided for the prediction'
 
-        #If it's a blind test set, we need to copy in the values from the actual data
+        # If it's a blind test set, we need to copy in the values from the actual data
         if 'evidence' not in instance or 'label' not in instance:
             assert actual is not None, 'in blind evaluation mode, actual data must be provided'
             assert len(actual) == len(predictions), 'actual data and predicted data length must match'
@@ -126,12 +134,20 @@ def fever_score(predictions,actual=None, max_evidence=5):
 
         assert 'evidence' in instance.keys(), 'gold evidence must be provided'
 
+
+        # Apply unicode normalization to page titles in evidence
+        instance["predicted_evidence"] = [[normalize(page),line] for page,line in instance["predicted_evidence"]]
+        instance["evidence"] = [[[e[0], e[1], normalize(e[2]), e[3]] for e in evidence_group]
+                                for evidence_group in instance["evidence"]]
+
+        # Check correct label
         if is_correct_label(instance):
             correct += 1.0
 
             if is_strictly_correct(instance, max_evidence):
                 strict+=1.0
 
+        # Score evidence precision and recall
         macro_prec = evidence_macro_precision(instance, max_evidence)
         macro_precision += macro_prec[0]
         macro_precision_hits += macro_prec[1]
